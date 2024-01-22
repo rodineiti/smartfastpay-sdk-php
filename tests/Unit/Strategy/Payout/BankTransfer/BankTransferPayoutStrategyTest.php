@@ -41,7 +41,7 @@ class BankTransferPayoutStrategyTest extends TestCase
         $payoutStrategy->setConfig($payoutConfig);
         $payoutStrategy->setHttpClient($httpClientAdapterMock);
 
-        $response = $payoutStrategy->processPayout($params);
+        $response = $payoutStrategy->process($params);
 
         $this->assertIsString($response);
     }

@@ -43,7 +43,7 @@ class BoletoPaymentStrategyTest extends TestCase
         $paymentStrategy->setConfig($paymentConfig);
         $paymentStrategy->setHttpClient($httpClientAdapterMock);
 
-        $response = $paymentStrategy->processPayment($params);
+        $response = $paymentStrategy->process($params);
 
         $this->assertIsString($response);
     }
