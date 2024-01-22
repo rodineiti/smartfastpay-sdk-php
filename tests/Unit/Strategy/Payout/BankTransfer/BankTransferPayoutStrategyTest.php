@@ -19,7 +19,7 @@ class BankTransferPayoutStrategyTest extends TestCase
             ->method('sendRequest')
             ->willReturn('Mocked response');
 
-        $payoutConfig = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $payoutConfig = new Config('seu-client-id', 'seu-client-secret');
         $amount = 100.00;
         $params = new BankTransferParams(
             '58f0c005-3b7d-4c75-81f3-93b9a6fee864',
@@ -55,7 +55,7 @@ class BankTransferPayoutStrategyTest extends TestCase
             ->method('sendRequest')
             ->willReturn('Mocked response');
 
-        $payoutConfig = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $payoutConfig = new Config('seu-client-id', 'seu-client-secret');
         $payoutStrategy = new BankTransferPayoutStrategy();
         $payoutStrategy->setConfig($payoutConfig);
         $payoutStrategy->setHttpClient($httpClientAdapterMock);

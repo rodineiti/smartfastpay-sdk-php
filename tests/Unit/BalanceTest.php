@@ -11,7 +11,7 @@ class BalanceTest extends TestCase
 {
     public function testGetBalance()
     {
-        $config = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $config = new Config('seu-client-id', 'seu-client-secret');
         
         $balance = new Balance($config);
 

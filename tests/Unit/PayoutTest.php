@@ -13,7 +13,7 @@ class PayoutTest extends TestCase
 {
     public function testProcessPayout()
     {
-        $config = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $config = new Config('seu-client-id', 'seu-client-secret');
         $paramsMock = $this->createMock(ParamsInterface::class);
 
         $payout = new Payout($config);
@@ -36,7 +36,7 @@ class PayoutTest extends TestCase
 
     public function testGetPayout()
     {
-        $config = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $config = new Config('seu-client-id', 'seu-client-secret');
         
         $payout = new Payout($config);
 

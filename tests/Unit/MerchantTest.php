@@ -11,7 +11,7 @@ class MerchantTest extends TestCase
 {
     public function testGetSecret()
     {
-        $config = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $config = new Config('seu-client-id', 'seu-client-secret');
         
         $merchant = new Merchant($config);
 

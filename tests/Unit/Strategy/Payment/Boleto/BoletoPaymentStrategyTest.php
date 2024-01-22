@@ -19,7 +19,7 @@ class BoletoPaymentStrategyTest extends TestCase
             ->method('sendRequest')
             ->willReturn('Mocked response');
 
-        $paymentConfig = new Config('sandbox', 'seu-client-id', 'seu-client-secret');
+        $paymentConfig = new Config('seu-client-id', 'seu-client-secret');
         $amount = 110.50;
         $params = new BoletoParams(
             '58f0c005-3b7d-4c75-81f3-93b9a6fee864',
