@@ -16,7 +16,7 @@ class BoletoPaymentStrategy extends BasePayment
         $this->resource = 'payment';
     }
     
-    public function processPayment(ParamsInterface $params)
+    public function process(ParamsInterface $params)
     {
         if (!$params instanceof BoletoParams) {
             throw new InvalidArgumentException('The params must be an instance of BoletoParams');

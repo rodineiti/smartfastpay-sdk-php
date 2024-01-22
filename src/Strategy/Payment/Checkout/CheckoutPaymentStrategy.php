@@ -16,7 +16,7 @@ class CheckoutPaymentStrategy extends BasePayment
         $this->resource = 'transaction';
     }
 
-    public function processPayment(ParamsInterface $params)
+    public function process(ParamsInterface $params)
     {
         if (!$params instanceof CheckoutParams) {
             throw new InvalidArgumentException('The params must be an instance of CheckoutParams');

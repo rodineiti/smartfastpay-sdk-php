@@ -16,7 +16,7 @@ class PixPayoutStrategy extends BasePayout
         $this->resource = 'payout';
     }
     
-    public function processPayout(ParamsInterface $params)
+    public function process(ParamsInterface $params)
     {
         if (!$params instanceof PixParams) {
             throw new InvalidArgumentException('The params must be an instance of PixParams');
