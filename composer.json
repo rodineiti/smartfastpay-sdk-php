@@ -1,8 +1,9 @@
 {
   "name": "rodineiti/smartfastpay-sdk-php",
   "description": "SDK with PHP for Smartfastpay to process payments and payouts",
-  "minimum-stability": "stable",
+  "type": "library",
   "license": "MIT",
+  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Rodinei Teixeira",
