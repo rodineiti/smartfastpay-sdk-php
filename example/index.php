@@ -38,7 +38,7 @@ try {
         2.00,
         'BRL',
         'http://example.com/callback',
-        uniqid(),
+        uniqid()
     ));
     
     header("Content-Type: application/json");
@@ -86,7 +86,7 @@ try {
         'BRL',
         'http://example.com/callback',
         uniqid(),
-        '12345678909',
+        '12345678909'
     ));
     
     //header("Content-Type: application/json");
