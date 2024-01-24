@@ -46,7 +46,7 @@ class HttpClientAdapter
 
     private function shouldRetry(RequestException $e, $retryCount)
     {
-        $retryCodes = [500, 502, 503, 504];
+        $retryCodes = [502, 503, 504];
         return in_array($e->getResponse()->getStatusCode(), $retryCodes) && $retryCount < $this->retryAttempts;
     }
 }

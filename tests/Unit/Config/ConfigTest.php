@@ -9,7 +9,7 @@ class ConfigTest extends TestCase
 {
     public function testConfig()
     {
-        $config = new Config('seu-client-id', 'seu-client-secret', 'sandbox',);
+        $config = new Config('seu-client-id', 'seu-client-secret', 'sandbox');
         $this->assertEquals('sandbox', $config->getEnvironment());
         $this->assertEquals('seu-client-id', $config->getClient());
         $this->assertEquals('seu-client-secret', $config->getSecret());

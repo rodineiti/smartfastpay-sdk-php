@@ -34,7 +34,7 @@ class BankTransferPayoutStrategyTest extends TestCase
             'aaa',
             'aaa',
             'aaa',
-            'aaa',
+            'aaa'
         );
 
         $payoutStrategy = new BankTransferPayoutStrategy();

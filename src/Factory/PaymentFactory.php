@@ -11,21 +11,26 @@ use Rodineiti\SmartfastpaySdk\Strategy\Payment\Checkout\CheckoutPaymentStrategy;
 
 class PaymentFactory
 {
+    const PAYMENTS_METHOD = [
+        'pix' => PixPaymentStrategy::class,
+        'boleto' => BoletoPaymentStrategy::class,
+        'bank_transfer' => BankTransferPaymentStrategy::class,
+        'picpay' => PicPayPaymentStrategy::class,
+        'checkout' => CheckoutPaymentStrategy::class
+    ];
+
     public static function createPayment($type)
     {
-        switch ($type) {
-            case 'pix':
-                return new PixPaymentStrategy();
-            case 'boleto':
-                return new BoletoPaymentStrategy();
-            case 'bank_transfer':
-                return new BankTransferPaymentStrategy();
-            case 'picpay':
-                return new PicPayPaymentStrategy();
-            case 'checkout':
-                return new CheckoutPaymentStrategy();
-            default:
-                throw new InvalidArgumentException("Type payment not supported: $type");
+        if (!isset(self::PAYMENTS_METHOD[$type])) {
+            throw new InvalidArgumentException("Type payment not supported: $type");
         }
+        
+        $type = self::PAYMENTS_METHOD[$type];
+
+        if (!class_exists($type)) {
+            throw new InvalidArgumentException("Type payment not supported or class not exists: $type");
+        }
+
+        return new $type();
     }
 }

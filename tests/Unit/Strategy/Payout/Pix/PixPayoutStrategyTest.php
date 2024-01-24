@@ -30,7 +30,7 @@ class PixPayoutStrategyTest extends TestCase
             'BRL',
             'http://example.com/callback',
             'b08e3897-6505-4bb4-81a5-6e3a1d29e277',
-            'b08e3897-6505-4bb4-81a5-6e3a1d29e277',
+            'b08e3897-6505-4bb4-81a5-6e3a1d29e277'
         );
 
         $payoutStrategy = new PixPayoutStrategy();
