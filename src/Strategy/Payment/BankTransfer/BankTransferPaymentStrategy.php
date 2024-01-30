@@ -5,8 +5,8 @@ namespace Rodineiti\SmartfastpaySdk\Strategy\Payment\BankTransfer;
 use InvalidArgumentException;
 use GuzzleHttp\Exception\RequestException;
 use Rodineiti\SmartfastpaySdk\Strategy\Payment\BasePayment;
-use Rodineiti\SmartfastpaySdk\Exceptions\PixPaymentException;
 use Rodineiti\SmartfastpaySdk\Contracts\ParamsInterface;
+use Rodineiti\SmartfastpaySdk\Exceptions\BankTransferPaymentException;
 
 class BankTransferPaymentStrategy extends BasePayment
 {
@@ -36,7 +36,7 @@ class BankTransferPaymentStrategy extends BasePayment
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new PixPaymentException('Error to process pay with bank transfer: ' . $e->getMessage());
+            throw BankTransferPaymentException::fromRequestException($e);
         }
     }
 }

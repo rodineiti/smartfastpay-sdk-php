@@ -36,7 +36,7 @@ class BankTransferPayoutStrategy extends BasePayout
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new BankTransferPayoutException('Error to process payout with bank transfer: ' . $e->getMessage());
+            throw BankTransferPayoutException::fromRequestException($e);
         }
     }
 }

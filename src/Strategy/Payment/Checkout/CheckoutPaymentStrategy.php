@@ -5,8 +5,8 @@ namespace Rodineiti\SmartfastpaySdk\Strategy\Payment\Checkout;
 use InvalidArgumentException;
 use GuzzleHttp\Exception\RequestException;
 use Rodineiti\SmartfastpaySdk\Strategy\Payment\BasePayment;
-use Rodineiti\SmartfastpaySdk\Exceptions\PixPaymentException;
 use Rodineiti\SmartfastpaySdk\Contracts\ParamsInterface;
+use Rodineiti\SmartfastpaySdk\Exceptions\CheckoutPaymentException;
 
 class CheckoutPaymentStrategy extends BasePayment
 {
@@ -36,7 +36,7 @@ class CheckoutPaymentStrategy extends BasePayment
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new PixPaymentException('Error to process pay with checkout: ' . $e->getMessage());
+            throw CheckoutPaymentException::fromRequestException($e);
         }
     }
 }

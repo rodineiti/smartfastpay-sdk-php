@@ -2,6 +2,6 @@
 
 namespace Rodineiti\SmartfastpaySdk\Exceptions;
 
-class CheckoutPaymentException extends GenericException
+class NotFoundException extends GenericException
 {
 }

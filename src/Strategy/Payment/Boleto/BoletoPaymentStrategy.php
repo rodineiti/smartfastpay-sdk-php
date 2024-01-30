@@ -36,7 +36,7 @@ class BoletoPaymentStrategy extends BasePayment
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new BoletoPaymentException('Error to process pay with boleto: ' . $e->getMessage());
+            throw BoletoPaymentException::fromRequestException($e);
         }
     }
 }

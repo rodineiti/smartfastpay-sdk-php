@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: application/json");
+
 ini_set("display_errors", 1);
 ini_set("error_reporting", E_ALL);
 ini_set('xdebug.overload_var_dump', 1);
@@ -13,10 +15,10 @@ use Rodineiti\SmartfastpaySdk\Payment;
 use Rodineiti\SmartfastpaySdk\Merchant;
 use Rodineiti\SmartfastpaySdk\Config\Config;
 
-use Rodineiti\SmartfastpaySdk\Helpers\Helper;
-
 use Rodineiti\SmartfastpaySdk\Strategy\BaseFilters;
 
+use Rodineiti\SmartfastpaySdk\Strategy\Payout\BasePayout;
+use Rodineiti\SmartfastpaySdk\Strategy\Payment\BasePayment;
 use Rodineiti\SmartfastpaySdk\Strategy\Payout\Pix\PixPayoutStrategy;
 use Rodineiti\SmartfastpaySdk\Strategy\Payment\Pix\PixPaymentStrategy;
 use Rodineiti\SmartfastpaySdk\Strategy\Payout\Pix\PixParams as PixParamsPayout;
@@ -32,8 +34,8 @@ $payment->setStrategy(new PixPaymentStrategy());
 try {
     $respose = $payment->processPayment(new PixParamsPayment(
         uniqid(),
-        'John Doe',
-        'john.doe@example.com',
+        'Rodinei Developer',
+        'email@teste.com',
         '12345678909',
         2.00,
         'BRL',
@@ -41,20 +43,31 @@ try {
         uniqid()
     ));
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on create payment: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 // GET PAYMENT
 try {
     $respose = $payment->getPayment('a1b13b56-9831-40ab-b405-ac4315ea851f');
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get payment: {$e->getMessage()}");
+    echo $e->getMessage();
+}
+
+// OR
+$basePayment = new BasePayment();
+$basePayment->setConfig($config);
+$basePayment->setResource('payment'); // payment or transaction
+
+try {
+    $respose = $basePayment->getByUid('a1b13b56-9831-40ab-b405-ac4315ea851f');
+    
+    echo $respose;
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
 
 // GET ALL PAYMENTS
@@ -62,12 +75,11 @@ $filters = new BaseFilters();
 $filters->setCustomerId('65aa775c9a53c');
 
 try {
-    $respose = $payment->getAllPayments($filters);
+    $respose = $basePayment->getAll($filters);
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get payments: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 
@@ -89,32 +101,42 @@ try {
         '12345678909'
     ));
     
-    //header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on create payout: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 // GET PAYOUT
 try {
     $respose = $payout->getPayout('7632f029-3fd7-4e92-97f9-adb62b11322d');
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get payout: {$e->getMessage()}");
+    echo $e->getMessage();
+}
+
+// OR
+$basePayout = new BasePayout();
+$basePayout->setConfig($config);
+$basePayout->setResource('payout'); // payout or transaction
+
+try {
+    $respose = $basePayout->getByUid('7632f029-3fd7-4e92-97f9-adb62b11322d');
+    
+    echo $respose;
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
 
 $filters = new BaseFilters();
 $filters->setCustomerId('ce631aee-4e83-45bc-bf97-e77d2bdcacb2');
 
 try {
-    $respose = $payout->getAllPayouts($filters);
+    $respose = $basePayout->getAll($filters);
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get payouts: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 // BALANCE
@@ -124,20 +146,18 @@ $balance = new Balance($config);
 try {
     $respose = $balance->getBalance();
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get balance: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 // GET BALANCE BY CURRENCY
 try {
     $respose = $balance->getBalance('USD');
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get balance by currency: {$e->getMessage()}");
+    echo $e->getMessage();
 }
 
 // MERCHANT
@@ -147,8 +167,7 @@ $merchant = new Merchant($config);
 try {
     $respose = $merchant->getSecret();
     
-    header("Content-Type: application/json");
     echo $respose;
 } catch (Exception $e) {
-    Helper::dd("Error on get secret merchant: {$e->getMessage()}");
+    echo $e->getMessage();
 }

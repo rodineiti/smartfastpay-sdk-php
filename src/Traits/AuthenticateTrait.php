@@ -2,8 +2,9 @@
 
 namespace Rodineiti\SmartfastpaySdk\Traits;
 
-use Exception;
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Rodineiti\SmartfastpaySdk\Exceptions\NotFoundClientException;
 
 trait AuthenticateTrait
 {
@@ -13,17 +14,13 @@ trait AuthenticateTrait
 
         try {
             $this->retrieveAccessToken();
-        } catch (Exception $e) {
-            throw new Exception('Failed to authenticate. ' . $e->getMessage());
+        } catch (RequestException $e) {
+            throw NotFoundClientException::fromRequestException($e);
         }
     }
 
     protected function validateAccessToken()
     {
-        if ($this->access_token !== null && $this->access_token_expires_at > time()) {
-            return;
-        }
-
         $cachedToken = $this->getAccessTokenFromCache();
 
         if ($cachedToken !== null && $cachedToken['expires_at'] > time()) {
@@ -35,25 +32,29 @@ trait AuthenticateTrait
 
     protected function retrieveAccessToken()
     {
-        $url = $this->config->getUrl() . '/oauth2/token';
+        try {
+            $url = $this->config->getUrl() . '/oauth2/token';
 
-        $base64Credentials = base64_encode($this->config->getClient() . ':' . $this->config->getSecret());
+            $base64Credentials = base64_encode($this->config->getClient() . ':' . $this->config->getSecret());
 
-        $response = $this->httpClientAdapter->sendRequest('POST', $url, [
-            'Authorization' => 'Basic ' . $base64Credentials,
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ]);
-
-        $data = json_decode($response, true);
-
-        if (isset($data['data']['access_token']) && isset($data['data']['expires_in'])) {
-            $this->access_token = $data['data']['access_token'];
-            $this->access_token_expires_at = time() + $data['data']['expires_in'];
-
-            $this->saveAccessTokenToCache([
-                'token' => $this->access_token,
-                'expires_at' => $this->access_token_expires_at,
+            $response = $this->httpClientAdapter->sendRequest('POST', $url, [
+                'Authorization' => 'Basic ' . $base64Credentials,
+                'Content-Type' => 'application/x-www-form-urlencoded',
             ]);
+
+            $data = json_decode($response, true);
+
+            if (isset($data['data']['access_token']) && isset($data['data']['expires_in'])) {
+                $this->access_token = $data['data']['access_token'];
+                $this->access_token_expires_at = time() + $data['data']['expires_in'];
+
+                $this->saveAccessTokenToCache([
+                    'token' => $this->access_token,
+                    'expires_at' => $this->access_token_expires_at,
+                ]);
+            }
+        } catch (RequestException $e) {
+            throw NotFoundClientException::fromRequestException($e);
         }
     }
 

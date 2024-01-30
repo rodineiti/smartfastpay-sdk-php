@@ -4,10 +4,11 @@ namespace Rodineiti\SmartfastpaySdk;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
-use Rodineiti\SmartfastpaySdk\Exceptions\PixPayoutException;
-use Rodineiti\SmartfastpaySdk\Exceptions\NotFoundPayoutException;
 use Rodineiti\SmartfastpaySdk\Contracts\ParamsInterface;
 use Rodineiti\SmartfastpaySdk\Contracts\FiltersInterface;
+use Rodineiti\SmartfastpaySdk\Exceptions\GenericException;
+use Rodineiti\SmartfastpaySdk\Exceptions\PixPayoutException;
+use Rodineiti\SmartfastpaySdk\Exceptions\NotFoundPayoutException;
 use Rodineiti\SmartfastpaySdk\Exceptions\BankTransferPayoutException;
 
 class Payout extends BaseSDK
@@ -21,9 +22,11 @@ class Payout extends BaseSDK
         } catch (BankTransferPayoutException $bankTransferException) {
             throw $bankTransferException;
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payout: ' . $requestException->getMessage());
+            throw $requestException;
+        } catch (GenericException $genericException) {
+            throw $genericException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payout was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 
@@ -34,9 +37,9 @@ class Payout extends BaseSDK
         } catch (NotFoundPayoutException $notFoundPayoutException) {
             throw $notFoundPayoutException;
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payout: ' . $requestException->getMessage());
+            throw $requestException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payout was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 
@@ -45,9 +48,11 @@ class Payout extends BaseSDK
         try {
             return $this->strategy->getAll($filters);
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payout: ' . $requestException->getMessage());
+            throw $requestException;
+        } catch (GenericException $genericException) {
+            throw $genericException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payout was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 }

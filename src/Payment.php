@@ -11,6 +11,7 @@ use Rodineiti\SmartfastpaySdk\Exceptions\BoletoPaymentException;
 use Rodineiti\SmartfastpaySdk\Exceptions\CheckoutPaymentException;
 use Rodineiti\SmartfastpaySdk\Exceptions\PicPayPaymentException;
 use Rodineiti\SmartfastpaySdk\Exceptions\BankTransferPaymentException;
+use Rodineiti\SmartfastpaySdk\Exceptions\GenericException;
 use Rodineiti\SmartfastpaySdk\Exceptions\NotFoundPaymentException;
 
 class Payment extends BaseSDK
@@ -30,9 +31,11 @@ class Payment extends BaseSDK
         } catch (CheckoutPaymentException $checkoutException) {
             throw $checkoutException;
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payment: ' . $requestException->getMessage());
+            throw $requestException;
+        } catch (GenericException $genericException) {
+            throw $genericException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payment was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 
@@ -43,9 +46,11 @@ class Payment extends BaseSDK
         } catch (NotFoundPaymentException $notFoundPaymentException) {
             throw $notFoundPaymentException;
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payment: ' . $requestException->getMessage());
+            throw $requestException;
+        } catch (GenericException $genericException) {
+            throw $genericException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payment was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 
@@ -54,9 +59,11 @@ class Payment extends BaseSDK
         try {
             return $this->strategy->getAll($filters);
         } catch (RequestException $requestException) {
-            throw new Exception('Error on request process payment: ' . $requestException->getMessage());
+            throw $requestException;
+        } catch (GenericException $genericException) {
+            throw $genericException;
         } catch (Exception $exception) {
-            throw new Exception('The strategy for payment was not defined. ' . $exception->getMessage());
+            throw $exception;
         }
     }
 }
