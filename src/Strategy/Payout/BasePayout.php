@@ -58,7 +58,7 @@ class BasePayout implements TransactionStrategyInterface
             
             return $this->httpClientAdapter->sendRequest('GET', $url, $headers);
         } catch (RequestException $e) {
-            throw new NotFoundPayoutException('Failed to retrieve payout: ' . $e->getMessage());
+            $this->handleException($e);
         }
     }
 
@@ -76,7 +76,12 @@ class BasePayout implements TransactionStrategyInterface
             
             return $this->httpClientAdapter->sendRequest('GET', $url, $headers);
         } catch (RequestException $e) {
-            throw new NotFoundPayoutException('Failed to retrieve payouts: ' . $e->getMessage());
+            $this->handleException($e);
         }
+    }
+
+    private function handleException(RequestException $e)
+    {
+        throw NotFoundPayoutException::fromRequestException($e);
     }
 }

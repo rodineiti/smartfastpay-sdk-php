@@ -2,12 +2,12 @@
 
 namespace Rodineiti\SmartfastpaySdk;
 
-use Exception;
 use GuzzleHttp\Exception\RequestException;
 use Rodineiti\SmartfastpaySdk\Config\Config;
 use Rodineiti\SmartfastpaySdk\Http\HttpClientAdapter;
 use Rodineiti\SmartfastpaySdk\Traits\AuthenticateTrait;
 use Rodineiti\SmartfastpaySdk\Contracts\WalletInterface;
+use Rodineiti\SmartfastpaySdk\Exceptions\NotFoundException;
 
 class Balance implements WalletInterface
 {
@@ -49,7 +49,7 @@ class Balance implements WalletInterface
             
             return $this->httpClientAdapter->sendRequest('GET', $url, $headers);
         } catch (RequestException $e) {
-            throw new Exception('Failed to retrieve payments: ' . $e->getMessage());
+            throw NotFoundException::fromRequestException($e);
         }
     }
 }

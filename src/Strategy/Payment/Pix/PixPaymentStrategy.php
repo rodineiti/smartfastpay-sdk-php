@@ -36,7 +36,7 @@ class PixPaymentStrategy extends BasePayment
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new PixPaymentException('Error to process pay with pix: ' . $e->getMessage());
+            throw PixPaymentException::fromRequestException($e);
         }
     }
 }

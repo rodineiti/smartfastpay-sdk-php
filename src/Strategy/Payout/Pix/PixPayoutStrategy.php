@@ -36,7 +36,7 @@ class PixPayoutStrategy extends BasePayout
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new PixPayoutException('Error to process payout with pix: ' . $e->getMessage());
+            throw PixPayoutException::fromRequestException($e);
         }
     }
 }

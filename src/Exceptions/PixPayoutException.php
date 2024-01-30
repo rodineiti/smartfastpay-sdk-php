@@ -2,8 +2,6 @@
 
 namespace Rodineiti\SmartfastpaySdk\Exceptions;
 
-use Exception;
-
-class PixPayoutException extends Exception
+class PixPayoutException extends GenericException
 {
 }

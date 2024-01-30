@@ -58,7 +58,7 @@ class BasePayment implements TransactionStrategyInterface
             
             return $this->httpClientAdapter->sendRequest('GET', $url, $headers);
         } catch (RequestException $e) {
-            throw new NotFoundPaymentException('Failed to retrieve payment: ' . $e->getMessage());
+            $this->handleException($e);
         }
     }
 
@@ -76,7 +76,12 @@ class BasePayment implements TransactionStrategyInterface
             
             return $this->httpClientAdapter->sendRequest('GET', $url, $headers);
         } catch (RequestException $e) {
-            throw new NotFoundPaymentException('Failed to retrieve payments: ' . $e->getMessage());
+            $this->handleException($e);
         }
+    }
+
+    private function handleException(RequestException $e)
+    {
+        throw NotFoundPaymentException::fromRequestException($e);
     }
 }

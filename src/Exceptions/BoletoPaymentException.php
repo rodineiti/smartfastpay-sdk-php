@@ -2,8 +2,6 @@
 
 namespace Rodineiti\SmartfastpaySdk\Exceptions;
 
-use Exception;
-
-class BoletoPaymentException extends Exception
+class BoletoPaymentException extends GenericException
 {
 }

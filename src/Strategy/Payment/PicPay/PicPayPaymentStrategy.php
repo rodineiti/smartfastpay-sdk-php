@@ -5,8 +5,8 @@ namespace Rodineiti\SmartfastpaySdk\Strategy\Payment\PicPay;
 use InvalidArgumentException;
 use GuzzleHttp\Exception\RequestException;
 use Rodineiti\SmartfastpaySdk\Strategy\Payment\BasePayment;
-use Rodineiti\SmartfastpaySdk\Exceptions\PixPaymentException;
 use Rodineiti\SmartfastpaySdk\Contracts\ParamsInterface;
+use Rodineiti\SmartfastpaySdk\Exceptions\PicPayPaymentException;
 
 class PicPayPaymentStrategy extends BasePayment
 {
@@ -36,7 +36,7 @@ class PicPayPaymentStrategy extends BasePayment
 
             return $this->httpClientAdapter->sendRequest('POST', $url, $headers, json_encode($data));
         } catch (RequestException $e) {
-            throw new PixPaymentException('Error to process pay with picpay: ' . $e->getMessage());
+            throw PicPayPaymentException::fromRequestException($e);
         }
     }
 }
